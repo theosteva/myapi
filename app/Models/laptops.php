@@ -21,6 +21,7 @@ class laptops extends Model
         'processor',
         'ram',
         'operating_system',
+        'description',
         'created_at',
         'updated_at',
         'deleted_at',
