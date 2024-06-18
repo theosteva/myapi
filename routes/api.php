@@ -6,8 +6,8 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\LaptopController;
 
 Route::prefix('user')->group(function () {
-    Route::get('/users', function () {
-        return $request->user();
+    Route::get('/users', function (Request $req) {
+        return $req->user();
     });
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -15,14 +15,14 @@ Route::prefix('user')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 });
 
-Route::resource('book', BookController::class, [
+Route::resource('laptops', LaptopController::class, [
     'only' => [
         'index',
         'show'
     ]
 ]);
 
-Route::resource('book', BookController::class, [
+Route::resource('laptops', LaptopController::class, [
     'except' => [
         'index',
         'show'

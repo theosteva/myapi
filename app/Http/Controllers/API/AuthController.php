@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Models\User;
 use OpenApi\Annotations as OA;
 
 /**
@@ -51,8 +51,11 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6|confirmed',
             ]);
             if ($validator->fails()) {
-                throw new HttpException(400, $validator->message()->first());
+                // Retrieve the first error message
+                $firstErrorMessage = $validator->errors()->first();
+                throw new HttpException(400, $firstErrorMessage);
             }
+
             $request['password']        =   Hash::make($request['password']);
             $request['remember_token']  =   \Illuminate\Support\Str::random(10);
             $user       = User::create($request->toArray());
@@ -99,8 +102,11 @@ class AuthController extends Controller
                 'password' => 'required|string|min:6',
             ]);
             if ($validator->fails()) {
-                throw new HttpException(400, $validator->messages()->first());
+                // Retrieve the first error message
+                $firstErrorMessage = $validator->errors()->first();
+                throw new HttpException(400, $firstErrorMessage);
             }
+
             $user = User::where('email', $request->email)->first();
             if ($user) {
                 if (Hash::check($request->password, $user->password)) {
