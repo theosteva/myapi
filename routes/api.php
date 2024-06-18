@@ -6,8 +6,8 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\LaptopController;
 
 Route::prefix('user')->group(function () {
-    Route::get('/users', function (Request $req) {
-        return $req->user();
+    Route::get('/users', function (Request $request) {
+        return $request->user();
     });
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'login'])->name('login');
